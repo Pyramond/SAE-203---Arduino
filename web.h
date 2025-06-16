@@ -23,8 +23,11 @@ void setupWeb(){
 
   display.clearDisplay();
   display.setCursor(0, 0);
-  display.print("Connectez vous au\nreseau ");
+  display.println("Connectez vous a :");
+  display.print("Nom : ");
   display.println(ssid);
+  display.print("Mdp : ");
+  display.println(password);
   display.println();
   display.print("Puis accedez a \nl'adresse ");
   display.print(myIP);
@@ -324,11 +327,7 @@ void loopWeb(){
             client.println();
 
             // the content of the HTTP response follows the header:
-            if(solo){
-              webSolo(client);
-            }else{
-              webGame(client);
-            }
+            webGame(client);
             client.println();
             break;
           } else {  // if you got a newline, then clear currentLine:
