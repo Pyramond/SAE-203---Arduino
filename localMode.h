@@ -49,8 +49,10 @@ bool joueur1 = true;
 Coord getCo(int key);
 bool victoire(int grille[3][3], int joueur);
 bool allInit();
+void afficheGrille();
 
-void localMode(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched);
+void localModeDuo(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched);
+void localModeSolo(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched);
 
 #endif // LOCALMODE_H
 
@@ -97,7 +99,17 @@ bool allInit() {
   return true;
 }
 
-void localMode(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched) {
+void afficheGrille() {
+  Serial.println("==============");
+  for(int i = 0; i < 3; i++) {
+    for(int j = 0; j < 3; j++) {
+      Serial.print(grille[i][j]);
+    }
+    Serial.println();
+  }
+}
+
+void localModeDuo(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched) {
   currtouched = cap.touched();
 
   for (int i = 0; i < numKeys; i++) {
@@ -114,23 +126,60 @@ void localMode(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouche
         if(grille[c.y][c.x] == 0) {
           if(joueur1) {
             grille[c.y][c.x] = 1;
+            afficheGrille();
             if(victoire(grille, 1)) {
               Serial.println("Joueur 1 a gagne");
             }
           } else {
             grille[c.y][c.x] = 2;
+            afficheGrille();
             if(victoire(grille, 2)) {
               Serial.println("Joueur 2 a gagne");
             }
           }
           joueur1 = !joueur1;
         }
+      }
+    }
+  }
+  lasttouched = currtouched;
+}
 
-         for(int i = 0; i < 3; i++) {
-          for(int j = 0; j < 3; j++) {
-            Serial.print(grille[i][j]);
+void localModeSolo(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched) {
+
+  //Serial.println("Mode Solo Local");
+
+  currtouched = cap.touched();
+
+  for (int i = 0; i < numKeys; i++) {
+    uint8_t t = keys[i].touchID;
+    keys[i].led.setPixelColor(0, 255); // Bleu
+    keys[i].led.show();
+
+    if ((currtouched & _BV(t)) && !(lasttouched & _BV(t))) {
+      Serial.print("Touch "); Serial.print(t); Serial.println(" pressed");
+      btns[i] = true;
+
+      if(allInit()) {
+        Coord c = getCo(i);
+        if(grille[c.y][c.x] == 0) {
+          grille[c.y][c.x] = 1;
+          afficheGrille();
+          if(victoire(grille, 1)) {
+            Serial.println("Joueur 1 a gagne");
           }
-          Serial.println();
+
+          int x, y;
+          do {
+            x = random(0, 3);
+            y = random(0, 3); 
+          } while(grille[y][x] != 0);
+
+          grille[y][x] = 2;
+          afficheGrille();
+          if(victoire(grille, 2)) {
+            Serial.println("Joueur 2 a gagne");
+          }
         }
       }
     }
