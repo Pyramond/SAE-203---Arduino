@@ -1,3 +1,7 @@
+#include <Adafruit_GFX.h>
+#include <Adafruit_SH110X.h>
+
+
 bool local = true;
 bool solo = true;
 int difficulty = 1;
@@ -6,6 +10,16 @@ uint8_t btnPrevA;
 uint8_t btnPrevB;
 uint8_t btnA;
 uint8_t btnB;
+
+bool isMod = false;
+bool isModJeu = false;
+bool isDifficulty = false;
+bool isPlay = false;
+bool isWebSet = false;
+
+#define BUTTON_A 15
+#define BUTTON_B 32
+Adafruit_SH1107 display = Adafruit_SH1107(64, 128, &Wire);
 
 unsigned long lastDebounceTimeA = 0;
 unsigned long lastDebounceTimeB = 0;
@@ -36,17 +50,7 @@ void setupMenu() {
 
 
 
-void menu() {
-  if (!isMod) {
-    choixMode();
-  } else if (!isModJeu) {
-    choixModeJeu();
-  } else if (solo && !isDifficulty) {
-    choixDifficulty();
-  } else {
-    isPlay = true; // mode duo sans choix difficulté
-  }
-}
+
 
 
 
@@ -81,23 +85,22 @@ void choixDifficulty() {
 }
 
 
-
-
-
-void readButton(){
-  btnA = digitalRead(BUTTON_A);
-  if (btnA == LOW && btnPrevA == HIGH && (millis() - lastDebounceTimeA > debounceDelay)) {
-    lastDebounceTimeA = millis();
-    handleButtonA();
+void menu() {
+  if (!isMod) {
+    choixMode();
+  } else if (!isModJeu) {
+    choixModeJeu();
+  } else if (solo && !isDifficulty) {
+    choixDifficulty();
+  } else {
+    isPlay = true; // mode duo sans choix difficulté
   }
-  btnPrevA = btnA;
-  btnB = digitalRead(BUTTON_B);
-  if (btnB == LOW && btnPrevB == HIGH && (millis() - lastDebounceTimeB > debounceDelay)) {
-    lastDebounceTimeB = millis();
-    handleButtonB();
-  }
-  btnPrevB = btnB;
 }
+
+
+
+
+
 
 
 
@@ -128,4 +131,20 @@ void handleButtonB() {
     isDifficulty = true;
     isPlay = true;
   }
+}
+
+
+void readButton(){
+  btnA = digitalRead(BUTTON_A);
+  if (btnA == LOW && btnPrevA == HIGH && (millis() - lastDebounceTimeA > debounceDelay)) {
+    lastDebounceTimeA = millis();
+    handleButtonA();
+  }
+  btnPrevA = btnA;
+  btnB = digitalRead(BUTTON_B);
+  if (btnB == LOW && btnPrevB == HIGH && (millis() - lastDebounceTimeB > debounceDelay)) {
+    lastDebounceTimeB = millis();
+    handleButtonB();
+  }
+  btnPrevB = btnB;
 }

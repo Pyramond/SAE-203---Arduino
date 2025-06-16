@@ -5,22 +5,6 @@
 
 #include <SPI.h>
 #include <Wire.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SH110X.h>
-#include <WiFi.h>
-#include <NetworkClient.h>
-#include <WiFiAP.h>
-
-Adafruit_SH1107 display = Adafruit_SH1107(64, 128, &Wire);
-#define BUTTON_A 15
-#define BUTTON_B 32
-
-
-bool isMod = false;
-bool isModJeu = false;
-bool isDifficulty = false;
-bool isPlay = false;
-bool isWebSet = false;
 
 
 

@@ -1,6 +1,11 @@
+#include <WiFi.h>
+#include <NetworkClient.h>
+#include <WiFiAP.h>
+
 const char *ssid = "morpion-SAE";
 const char *password = "12345678";
 NetworkServer server(80);
+NetworkClient client = server.accept();  
 
 void setupWeb(){
   Serial.println();
@@ -30,10 +35,159 @@ void setupWeb(){
 
 
 
+void webDuo(NetworkClient &c){
+  c.println("<!DOCTYPE html>");
+  c.println("<html>");
+  c.println("<head>");
+  c.println("  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
+  c.println("  <style>");
+  c.println("    body { margin: 0; padding: 0; height:100% }");
+  c.println("    html { height: 100%; }");
+  c.println("    .menu {");
+  c.println("        display: flex;");
+  c.println("        justify-content: center;");
+  c.println("        margin: 1%;");
+  c.println("    }");
+  c.println("    .grid {");
+  c.println("        display: flex;");
+  c.println("        width: 100%;");
+  c.println("        height: 90%;");
+  c.println("    }");
+  c.println("    .column {");
+  c.println("        width: 100%;");
+  c.println("        height: 100%;");
+  c.println("    }");
+  c.println("    .cell {");
+  c.println("      border: 1px solid black;");
+  c.println("      display: flex;");
+  c.println("      justify-content: center;");
+  c.println("      align-items: center;");
+  c.println("      font-size: 3em;");
+  c.println("      cursor: pointer;");
+  c.println("      user-select: none;");
+  c.println("      height: 33%;");
+  c.println("    }");
+  c.println("  </style>");
+  c.println("</head>");
+  c.println("<body>");
+  c.println("    <div class=\"menu\">");
+  c.println("        <button class=\"recommencer\">Recommencer</button>");
+  c.println("    </div>");
+  c.println("    <div class=\"grid\">");
+  c.println("        <div class=\"column\">");
+  c.println("            <div class=\"cell\" id=\"1\">1</div>");
+  c.println("            <div class=\"cell\" id=\"2\">2</div>");
+  c.println("            <div class=\"cell\" id=\"3\">3</div>");
+  c.println("        </div>");
+  c.println("        <div class=\"column\">");
+  c.println("            <div class=\"cell\" id=\"4\">4</div>");
+  c.println("            <div class=\"cell\" id=\"5\">5</div>");
+  c.println("            <div class=\"cell\" id=\"6\">6</div>");
+  c.println("        </div>");
+  c.println("        <div class=\"column\">");
+  c.println("            <div class=\"cell\" id=\"7\">7</div>");
+  c.println("            <div class=\"cell\" id=\"8\">8</div>");
+  c.println("            <div class=\"cell\" id=\"9\">9</div>");
+  c.println("        </div>");
+  c.println("    </div>");
+
+  c.println("    <script>");
+  c.println("        let joueur = 1;");
+  c.println("        let etat = [0,0,0,0,0,0,0,0,0];");
+  c.println("        let jeuFini = false;");
+  c.println("        let combinaisons = [");
+  c.println("        [0,1,2],");
+  c.println("        [3,4,5],");
+  c.println("        [6,7,8],");
+  c.println("        [0,3,6],");
+  c.println("        [1,4,7],");
+  c.println("        [2,5,8],");
+  c.println("        [0,4,8],");
+  c.println("        [2,4,6]");
+  c.println("        ];");
+
+  c.println("        let cells = document.querySelectorAll('.cell');");
+  c.println("        for (let i=0; i<cells.length; i++) {");
+  c.println("        cells[i].addEventListener('click', function() {");
+  c.println("            if (jeuFini) return;");
+  c.println("            let index = Array.prototype.indexOf.call(cells, this);");
+  c.println("            if (etat[index] === 0) {");
+  c.println("            etat[index] = joueur;");
+  c.println("            if (joueur === 1) {");
+  c.println("                this.style.backgroundColor = 'blue';");
+  c.println("            } else {");
+  c.println("                this.style.backgroundColor = 'red';");
+  c.println("            }");
+
+  c.println("            sleep(10).then(() => {");
+  c.println("                if (verifieVictoire(joueur)) {");
+  c.println("                alert('Le joueur ' + joueur + ' a gagne !');");
+  c.println("                jeuFini = true;");
+  c.println("            } else if (etat.indexOf(0) === -1) {");
+  c.println("                alert('Match nul !');");
+  c.println("                jeuFini = true;");
+  c.println("            } else {");
+  c.println("                joueur = (joueur === 1) ? 2 : 1;");
+  c.println("            }");
+  c.println("            })");
+  c.println("            }");
+  c.println("        });");
+  c.println("        }");
+
+  c.println("        function verifieVictoire(j) {");
+  c.println("        for (let i=0; i<combinaisons.length; i++) {");
+  c.println("            let c = combinaisons[i];");
+  c.println("            if (etat[c[0]] === j && etat[c[1]] === j && etat[c[2]] === j) {");
+  c.println("            return true;");
+  c.println("            }");
+  c.println("        }");
+  c.println("        return false;");
+  c.println("        }");
+
+  c.println("        function sleep(ms) {");
+  c.println("            return new Promise(resolve => setTimeout(resolve, ms));");
+  c.println("        }");
+
+  c.println("        let recommencer = document.querySelectorAll('.recommencer');");
+  c.println("        for (let i=0; i<recommencer.length; i++) {");
+  c.println("            recommencer[i].addEventListener('click', function() {");
+  c.println("                for (let j=0; j<cells.length; j++) {");
+  c.println("                    cells[j].style.backgroundColor = 'white';");
+  c.println("                }");
+  c.println("                jeuFini = false;");
+  c.println("                joueur = 1;");
+  c.println("                for(let j=0; j<etat.length; j++){");
+  c.println("                    etat[j]=0;");
+  c.println("                }");
+  c.println("            });");
+  c.println("        }");
+  c.println("    </script>");
+  c.println("</body>");
+  c.println("</html>");
+}
+
+
+void webSolo(NetworkClient &c){
+  c.println("<!DOCTYPE html>");
+  c.println("<html>");
+  c.println("<head>");
+  c.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
+  c.println("</head>");
+
+  c.println("<body>");
+  c.println("<div class='grid'>");
+  c.println("Pas encore commence !");
+  c.println("</div>");
+
+  c.println("</body>");
+  c.println("</html>");
+}
+
+
+
 
 void loopWeb(){
   NetworkClient client = server.accept();  
-
   if (client) {
     Serial.println("New Client.");
     String currentLine = ""; 
@@ -52,9 +206,9 @@ void loopWeb(){
 
             // the content of the HTTP response follows the header:
             if(solo){
-              webSolo();
+              webSolo(client);
             }else{
-              webDuo();
+              webDuo(client);
             }
             client.println();
             break;
@@ -64,107 +218,9 @@ void loopWeb(){
         } else if (c != '\r') {  // if you got anything else but a carriage return character,
           currentLine += c;      // add it to the end of the currentLine
         } 
-
-        if (currentLine.endsWith("GET /H")) {
-          //digitalWrite(LED_BUILTIN, HIGH);
-        }
-        if (currentLine.endsWith("GET /L")) {
-          //digitalWrite(LED_BUILTIN, LOW);
-        }
       }
     }
     client.stop();
     Serial.println("Client Disconnected.");
   }
-}
-
-
-
-
-
-void webDuo(){
-  client.println("<!DOCTYPE html>");
-  client.println("<html>");
-  client.println("<head>");
-  client.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
-  client.println("<style>");
-  client.println("body { margin: 0; padding: 0; }");
-  client.println(".grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); height: 100vh; width: 100vw; }");
-  client.println(".cell { border: 1px solid black; display: flex; justify-content: center; align-items: center; font-size: 3em; }");
-  client.println("</style>");
-  client.println("</head>");
-
-  client.println("<body>");
-  client.println("<div class='grid'>");
-  for (int i = 0; i < 9; i++) {
-    client.print("<div class='cell' id='");
-    client.print(i + 1);
-    client.print("'>");
-    client.print(i + 1);
-    client.println("</div>");
-  }
-  client.println("</div>");
-
-  client.println("<script>");
-  client.println("var joueur = 1;");
-  client.println("var etat = [0,0,0,0,0,0,0,0,0];");
-  client.println("var jeuFini = false;");
-  client.println("var combinaisons = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];");
-
-  client.println("var cells = document.querySelectorAll('.cell');");
-  client.println("for (var i=0; i<cells.length; i++) {");
-  client.println("  cells[i].addEventListener('click', function() {");
-  client.println("    if (jeuFini) return;");
-  client.println("    var index = Array.prototype.indexOf.call(cells, this);");
-  client.println("    if (etat[index] === 0) {");
-  client.println("      etat[index] = joueur;");
-  client.println("      if (joueur === 1) {");
-  client.println("        this.style.backgroundColor = 'blue';");
-  client.println("      } else {");
-  client.println("        this.style.backgroundColor = 'red';");
-  client.println("      }");
-
-  client.println("      if (verifieVictoire(joueur)) {");
-  client.println("        alert('Le joueur ' + joueur + ' a gagne !');");
-  client.println("        jeuFini = true;");
-  client.println("      } else if (etat.indexOf(0) === -1) {");
-  client.println("        alert('Match nul !');");
-  client.println("        jeuFini = true;");
-  client.println("      } else {");
-  client.println("        if (joueur === 1) { joueur = 2; } else { joueur = 1; }");
-  client.println("      }");
-  client.println("    }");
-  client.println("  });");
-  client.println("}");
-
-  client.println("function verifieVictoire(j) {");
-  client.println("  for (var i=0; i<combinaisons.length; i++) {");
-  client.println("    var c = combinaisons[i];");
-  client.println("    if (etat[c[0]] === j && etat[c[1]] === j && etat[c[2]] === j) {");
-  client.println("      return true;");
-  client.println("    }");
-  client.println("  }");
-  client.println("  return false;");
-  client.println("}");
-  client.println("</script>");
-
-  client.println("</body>");
-  client.println("</html>");
-}
-
-
-void webSolo(){
-  client.println("<!DOCTYPE html>");
-  client.println("<html>");
-  client.println("<head>");
-  client.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
-  client.println("</head>");
-
-  client.println("<body>");
-  client.println("<div class='grid'>");
-  client.println("Pas encore commence !")
-  client.println("</div>");
-
-  client.println("</body>");
-  client.println("</html>");
 }
