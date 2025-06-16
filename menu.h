@@ -23,7 +23,7 @@ Adafruit_SH1107 display = Adafruit_SH1107(64, 128, &Wire);
 
 unsigned long lastDebounceTimeA = 0;
 unsigned long lastDebounceTimeB = 0;
-const unsigned long debounceDelay = 200; // délai de rebond (200 ms)
+const unsigned long debounceDelay = 200;
 
 void setupMenu() {
   pinMode(BUTTON_A, INPUT_PULLUP);
@@ -88,12 +88,12 @@ void choixDifficulty() {
 void menu() {
   if (!isMod) {
     choixMode();
-  } else if (!isModJeu) {
+  } else if (local && !isModJeu) {
     choixModeJeu();
-  } else if (solo && !isDifficulty) {
+  } else if (local && solo && !isDifficulty) {
     choixDifficulty();
   } else {
-    isPlay = true; // mode duo sans choix difficulté
+    isPlay = true;
   }
 }
 
