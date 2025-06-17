@@ -17,6 +17,7 @@ uint16_t currtouched = 0;
 void setup() {
   Serial.begin(115200);
   randomSeed(analogRead(0));
+  pinMode(A2, INPUT);
 
 
   if (!cap.begin(0x5B)) {
