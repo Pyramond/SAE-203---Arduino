@@ -32,7 +32,6 @@ void loop() {
   readButton();
   if (!isPlay) {
     menu();
-    Serial.println("ok");
   } else {
     if (!local) {
       if(!isWebSet){
