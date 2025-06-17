@@ -285,20 +285,6 @@ void webGame(NetworkClient &c){
 )rawliteral");
 }
 
-void webSolo(NetworkClient &c) {
-  c.println("<!DOCTYPE html>");
-  c.println("<html>");
-  c.println("<head>");
-  c.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
-  c.println("</head>");
-  c.println("<body>");
-  c.println("<div class='grid'>");
-  c.println("Pas encore commence !");
-  c.println("</div>");
-  c.println("</body>");
-  c.println("</html>");
-}
-
 void loopWeb() {
   NetworkClient client = server.accept();
   if (client) {
