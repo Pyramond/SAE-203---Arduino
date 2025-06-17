@@ -61,22 +61,22 @@ Giovanni JOSSERAND
 
 Libellé | pin
 | -- | -- |
-Entrée Bouton 1 | x
+Entrée Bouton 1 | 8 - CH0
 Sortie Bouton 1 | 15
-Entrée Bouton 2 | x
+Entrée Bouton 2 | 9 - CH1
 Sortie Bouton 2 | 33
-Entrée Bouton 3 | x
+Entrée Bouton 3 | 10 - CH2
 Sortie Bouton 3 | 26
-Entrée Bouton 4 | x
+Entrée Bouton 4 | 11 - CH3
 Sortie Bouton 4 | 25
-Entrée Bouton 5 | x
+Entrée Bouton 5 | 12 - CH4
 Sortie Bouton 5 | 16
-Entrée Bouton 6 | x
+Entrée Bouton 6 | 13 - CH5
 Sortie Bouton 6 | 17
-Entrée Bouton 7 | x
+Entrée Bouton 7 | 14 - CH6
 Sortie Bouton 7 | 14
-Entrée Bouton 8 | x
+Entrée Bouton 8 | 15 - CH7
 Sortie Bouton 8 | 32
-Entrée Bouton 9 | x
+Entrée Bouton 9 | 16 - CH8
 Sortie Bouton 9 | 4
 ResetGame Bouton | 26
