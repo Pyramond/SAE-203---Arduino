@@ -10,21 +10,29 @@
 #include <Adafruit_NeoPixel.h>
 
 // --- Capteur capacitif ---
-// Attention : Une SEULE instance globale !
 Adafruit_MPR121 cap = Adafruit_MPR121();
 uint16_t lasttouched = 0;
 uint16_t currtouched = 0;
 
 void setup() {
   Serial.begin(115200);
+  randomSeed(analogRead(0));
+  pinMode(A2, INPUT);
 
 
+<<<<<<< gra_21_morpion_lumineux_code.ino
+
+=======
+>>>>>>> gra_21_morpion_lumineux_code.ino
   if (!cap.begin(0x5B)) {
     Serial.println("MPR121 not found, check wiring?");
     while (1);
   }
   Serial.println("MPR121 found!");
+<<<<<<< gra_21_morpion_lumineux_code.ino
 
+=======
+>>>>>>> gra_21_morpion_lumineux_code.ino
 
   setupMenu();
 }
@@ -44,10 +52,13 @@ void loop() {
     } else {
       if(!isBtnSet){
         setBtn(cap, lasttouched, currtouched);
-      }else{
-        // Passe cap, lasttouched, currtouched par référence !
-        localMode(cap, lasttouched, currtouched);
+      } else{
+        if(solo) {
+          localModeSolo(cap, lasttouched, currtouched);
+        }
+        else {
+          localModeDuo(cap, lasttouched, currtouched);
+        }
+        }
       }
-    }
-  }
 }
