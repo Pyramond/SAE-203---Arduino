@@ -12,3 +12,4 @@
 #define TX 17
 #define SCL 22
 #define SDA 23
+#define VART 0

@@ -14,6 +14,8 @@ Adafruit_MPR121 cap = Adafruit_MPR121();
 uint16_t lasttouched = 0;
 uint16_t currtouched = 0;
 
+
+
 void setup() {
   Serial.begin(115200);
   randomSeed(analogRead(0));

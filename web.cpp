@@ -5,10 +5,9 @@
 
 extern Adafruit_SH1107 display;
 
-// Utilisateurs du réseau
 const char *ssid = "morpion-SAE";
 const char *password = "12345678";
-NetworkServer server(80);
+WiFiServer server(80);
 
 void setupWeb() {
   Serial.println();
@@ -26,18 +25,18 @@ void setupWeb() {
 
   display.clearDisplay();
   display.setCursor(0, 0);
-  display.println("Connectez vous a :");
+  display.println("Connectez-vous a :");
   display.print("Nom : ");
   display.println(ssid);
   display.print("Mdp : ");
   display.println(password);
   display.println();
-  display.print("Puis accedez a \nl'adresse ");
+  display.print("Puis accedez a\nl'adresse ");
   display.print(myIP);
   display.display();
 }
 
-void webGame(NetworkClient &c){
+void webGame(WiFiClient &c) {
   c.println(R"rawliteral(
 
 <!DOCTYPE html>
@@ -312,7 +311,7 @@ void webGame(NetworkClient &c){
 }
 
 void loopWeb() {
-  NetworkClient client = server.accept();
+  WiFiClient client = server.available();
   if (client) {
     Serial.println("New Client.");
     String currentLine = "";

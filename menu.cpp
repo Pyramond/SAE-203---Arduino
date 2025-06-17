@@ -1,4 +1,5 @@
 #include "menu.h"
+#include "localMode.h"
 #include <Arduino.h>
 
 // Variables de configuration du menu
@@ -11,11 +12,12 @@ uint8_t btnPrevB;
 uint8_t btnA;
 uint8_t btnB;
 
-bool isMod = false;
-bool isModJeu = false;
-bool isDifficulty = false;
+uint8_t isMod = false;
+uint8_t isModJeu = false;
+uint8_t isDifficulty = false;
 bool isPlay = false;
 bool isWebSet = false;
+
 
 Adafruit_SH1107 display = Adafruit_SH1107(64, 128, &Wire);
 
@@ -23,15 +25,15 @@ unsigned long lastDebounceTimeA = 0;
 unsigned long lastDebounceTimeB = 0;
 const unsigned long debounceDelay = 200;
 
-// Assure-toi que epd_bitmap_logo soit déclaré ailleurs ou inclus ici
+
 //extern const unsigned char epd_bitmap_logo[];
 
 void setupMenu() {
   pinMode(BUTTON_A, INPUT_PULLUP);
   pinMode(BUTTON_B, INPUT_PULLUP);
 
-  btnPrevA = digitalRead(BUTTON_A);
-  btnPrevB = digitalRead(BUTTON_B);
+  btnPrevA = 0x0;
+  btnPrevB = 0x0;
 
   display.begin(0x3C, true);
   display.clearDisplay();
@@ -50,7 +52,7 @@ void setupMenu() {
 void choixMode() {
   display.clearDisplay();
   display.setCursor(0, 0);
-  display.print("Choisissez le mode :\n");
+  display.print("Choisir le mode :\n");
   display.print("[A] Local\n");
   display.print("[B] Web\n");
   display.display();
@@ -59,7 +61,7 @@ void choixMode() {
 void choixModeJeu() {
   display.clearDisplay();
   display.setCursor(0, 0);
-  display.print("Choisissez le type :\n");
+  display.print("Choisir le type :\n");
   display.print("[A] Solo\n");
   display.print("[B] Duo\n");
   display.display();
@@ -68,35 +70,36 @@ void choixModeJeu() {
 void choixDifficulty() {
   display.clearDisplay();
   display.setCursor(0, 0);
-  display.print("Choisissez la \ndifficulte :\n");
+  display.print("Choisir la \ndifficulte :\n");
   display.print("[A] Debutant\n");
   display.print("[B] Expert\n");
   display.display();
 }
 
 void menu() {
+
   if (!isMod) {
     choixMode();
   } else if (local && !isModJeu) {
     choixModeJeu();
   } else if (local && solo && !isDifficulty) {
     choixDifficulty();
-  } else {
+  } else{
     isPlay = true;
   }
+
 }
 
 void handleButtonA() {
   if (!isMod) {
     local = true;
     isMod = true;
-  } else if (!isModJeu) {
+  } else if (local && !isModJeu) {
     solo = true;
     isModJeu = true;
-  } else if (solo && !isDifficulty) {
+  } else if (local && solo && !isDifficulty) {
     difficulty = 1;
     isDifficulty = true;
-    isPlay = true;
   }
 }
 
@@ -104,18 +107,24 @@ void handleButtonB() {
   if (!isMod) {
     local = false;
     isMod = true;
-  } else if (!isModJeu) {
+  } else if (local && !isModJeu) {
     solo = false;
     isModJeu = true;
-  } else if (solo && !isDifficulty) {
+  } else if (local && solo && !isDifficulty) {
     difficulty = 2;
     isDifficulty = true;
-    isPlay = true;
   }
 }
 
 void readButton() {
   btnA = digitalRead(BUTTON_A);
+  /*
+  Serial.print(btnA);
+  Serial.print("   ");
+  Serial.println(btnPrevA);
+  delay(1000);
+  */
+
   if (btnA == LOW && btnPrevA == HIGH && (millis() - lastDebounceTimeA > debounceDelay)) {
     lastDebounceTimeA = millis();
     handleButtonA();

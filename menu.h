@@ -4,7 +4,6 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SH110X.h>
 
-// Variables de configuration du menu
 extern bool local;
 extern bool solo;
 extern int difficulty;
@@ -14,9 +13,7 @@ extern uint8_t btnPrevB;
 extern uint8_t btnA;
 extern uint8_t btnB;
 
-extern bool isMod;
-extern bool isModJeu;
-extern bool isDifficulty;
+
 extern bool isPlay;
 extern bool isWebSet;
 
