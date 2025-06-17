@@ -224,17 +224,18 @@ void localModeSolo(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currto
           if(victoire(grille, 1)) {
             Serial.println("Joueur 1 a gagne");
             affichResultat();
+            break;
           }
-
+          
           int x, y;
           do {
             x = random(0, 3);
-            y = random(0, 3); 
+            y = random(0, 3);
           } while(grille[y][x] != 0);
 
           grille[y][x] = 2;
-          keys[i].led.setPixelColor(0, 255,0,0);
-            keys[i].led.show();
+          keys[(3*y)+x].led.setPixelColor(0, 255,0,0);
+          keys[(3*y)+x].led.show();
           if(victoire(grille, 2)) {
             Serial.println("Joueur 2 a gagne");
             affichResultat();
