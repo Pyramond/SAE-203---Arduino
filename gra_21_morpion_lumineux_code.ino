@@ -1,5 +1,4 @@
 #include "pin.h"
-#include "logo.h"
 #include "menu.h"
 #include "web.h"
 #include "localMode.h"
