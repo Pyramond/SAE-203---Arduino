@@ -1,8 +1,6 @@
 #include "localMode.h"
 #include <Arduino.h>
 
-uint8_t color_pos = 16;
-
 MechKey keys[] = {
   {0, A0, false, Adafruit_NeoPixel(1, A0, NEO_GRB + NEO_KHZ800)},
   {1, 25, false, Adafruit_NeoPixel(1, 25, NEO_GRB + NEO_KHZ800)},
@@ -74,13 +72,28 @@ void afficheGrille() {
   }
 }
 
+void reset() {
+  if(digitalRead(A2) == HIGH) {
+    Serial.println("Reset");
+
+    for(int i = 0; i < 3; i++) {
+      for(int j = 0; j < 3; j++) {
+        grille[i][j] = 0;
+      }
+    }
+
+    joueur1 = true;
+
+    afficheGrille();
+  }
+}
+
 void localModeDuo(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched) {
   currtouched = cap.touched();
+  reset();
 
   for (int i = 0; i < numKeys; i++) {
     uint8_t t = keys[i].touchID;
-    keys[i].led.setPixelColor(0, 255); // Bleu
-    keys[i].led.show();
 
     if ((currtouched & _BV(t)) && !(lasttouched & _BV(t))) {
       Serial.print("Touch "); Serial.print(t); Serial.println(" pressed");
@@ -112,6 +125,7 @@ void localModeDuo(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtou
 
 void localModeSolo(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched) {
   currtouched = cap.touched();
+  reset();
 
   for (int i = 0; i < numKeys; i++) {
     uint8_t t = keys[i].touchID;

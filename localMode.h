@@ -3,6 +3,7 @@
 
 #include <Adafruit_MPR121.h>
 #include <Adafruit_NeoPixel.h>
+#include "pin.h"
 
 #ifndef _BV
 #define _BV(bit) (1 << (bit))
@@ -31,6 +32,7 @@ Coord getCo(int key);
 bool victoire(int grille[3][3], int joueur);
 bool allInit();
 void afficheGrille();
+void reset();
 
 void localModeDuo(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched);
 void localModeSolo(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched);
