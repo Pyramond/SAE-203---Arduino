@@ -53,10 +53,10 @@ Giovanni JOSSERAND
 
 ### Photos
 
+<img src="https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineaux_images/-/raw/main/oled.png?ref_type=heads" height=200>
 <img src="https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineaux_images/-/raw/main/ledsOff.jpg?ref_type=heads" height=200>
 <img src="https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineaux_images/-/raw/main/ledsOn.jpg?ref_type=heads" height=200>
-<img src="https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineaux_images/-/raw/main/oled.png?ref_type=heads" height=200>
-<https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineaux_images/-/raw/main/3.jpg?ref_type=heads" height=200>
+<img src="https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineaux_images/-/raw/main/3.jpg?ref_type=heads" height=200>
 <img src="https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineaux_images/-/raw/main/2.jpg?ref_type=heads" height=200>
 <img src="https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineaux_images/-/raw/main/1.jpg?ref_type=heads" height=200>
 
