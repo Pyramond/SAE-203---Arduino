@@ -18,7 +18,7 @@ Giovanni JOSSERAND
 - Installer [l'IDE Arduino](https://www.arduino.cc/en/software/)
 - Avoir les composants suivants :
   - 1x Esp32
-  - 8x Groove Mech Keycap
+  - 9x Groove Mech Keycap
   - 1x Push Button
   - 1x Touch sensor 12 key capacitive
   - 1x OLED Display
@@ -37,11 +37,11 @@ Giovanni JOSSERAND
   - Choisir si on veut jouer en solo ou duo. Si le mode solo est choisi, sélectionner la difficulté du jeu, le joueur jouera ensuite contre un robot
   - Pendant une partie le joueur 1 et le joueur 2 joueront à tour de rôle (Si le mode sélectionné est Solo, le joueur 2 sera remplacé par le robot, et jouera instantanément après le joueur 1)
   - Une fois la partie terminée, tous les boutons excepté la ligne responsable de la victoire s'éteindront
-  - Un bouton poussoir reset permet de réinitialiser la partie
+  - Le bouton resetGame permet de réinitialiser la partie
 - Mode Web :
   - Connecter votre appareil (téléphone, PC, ...) au réseau créé par l'esp32, le nom du réseau devra s'afficher sur l'écran OLED, le mot de passe du réseau s'affiche également à l'écran. Une fois connecté au réseau, rendez-vous ensuite sur le site web du jeu via l'IP affichée à l'écran.
   - Une fois sur le site, choisir entre mode solo/duo. Le mode solo comporte 2 difficultés, Facile et Difficile
-
+- Le bouton reset permet de redémarrer l'esp pour par exemple changer de mode de jeu (Web/Local...)
 
 ### Annexe
 
@@ -83,3 +83,12 @@ Sortie Bouton 8 | 32
 Entrée Bouton 9 | 16 - CH8
 Sortie Bouton 9 | 4
 ResetGame Bouton | 26
+
+
+### bibliothèques utilisées
+
+- Adafruit NeoPixel v1.15.1
+- TTP229
+- Adafruit_MPR121
+- Adafruit GFX Library
+- Adafruit_SH110X
