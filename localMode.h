@@ -52,8 +52,32 @@ bool allInit();
 
 void localMode(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched);
 
+bool isBtnSet = false;
+
 #endif // LOCALMODE_H
 
+
+void setBtn(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched){
+  display.clearDisplay();
+  display.setCursor(0, 0);
+  display.print("Veuillez rester\nappuye sur chaqu'un\ndes boutons pendant\n3 secondes avant de\nles relacher pour\nles initialiser");
+  display.display();
+  if(allInit()){
+    isBtnSet = true;
+  }else{
+    currtouched = cap.touched();
+    for (int i = 0; i < numKeys; i++) {
+      uint8_t t = keys[i].touchID;
+      keys[i].led.setPixelColor(0, 255); // Bleu
+      keys[i].led.show();
+      if ((currtouched & _BV(t)) && !(lasttouched & _BV(t))) {
+        Serial.print("Touch "); Serial.print(t); Serial.println(" pressed");
+        btns[i] = true;
+      }
+    }
+    lasttouched = currtouched;
+  }
+}
 
 Coord getCo(int key) {
   switch(key) {
@@ -107,31 +131,28 @@ void localMode(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouche
 
     if ((currtouched & _BV(t)) && !(lasttouched & _BV(t))) {
       Serial.print("Touch "); Serial.print(t); Serial.println(" pressed");
-      btns[i] = true;
 
-      if(allInit()) {
-        Coord c = getCo(i);
-        if(grille[c.y][c.x] == 0) {
-          if(joueur1) {
-            grille[c.y][c.x] = 1;
-            if(victoire(grille, 1)) {
-              Serial.println("Joueur 1 a gagne");
-            }
-          } else {
-            grille[c.y][c.x] = 2;
-            if(victoire(grille, 2)) {
-              Serial.println("Joueur 2 a gagne");
-            }
+      Coord c = getCo(i);
+      if(grille[c.y][c.x] == 0) {
+        if(joueur1) {
+          grille[c.y][c.x] = 1;
+          if(victoire(grille, 1)) {
+            Serial.println("Joueur 1 a gagne");
           }
-          joueur1 = !joueur1;
+        } else {
+          grille[c.y][c.x] = 2;
+          if(victoire(grille, 2)) {
+            Serial.println("Joueur 2 a gagne");
+          }
         }
+        joueur1 = !joueur1;
+      }
 
-         for(int i = 0; i < 3; i++) {
-          for(int j = 0; j < 3; j++) {
-            Serial.print(grille[i][j]);
-          }
-          Serial.println();
+        for(int i = 0; i < 3; i++) {
+        for(int j = 0; j < 3; j++) {
+          Serial.print(grille[i][j]);
         }
+        Serial.println();
       }
     }
   }

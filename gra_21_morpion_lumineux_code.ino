@@ -18,13 +18,13 @@ uint16_t currtouched = 0;
 void setup() {
   Serial.begin(115200);
 
-/*
+
   if (!cap.begin(0x5B)) {
     Serial.println("MPR121 not found, check wiring?");
     while (1);
   }
   Serial.println("MPR121 found!");
-  */
+
 
   setupMenu();
 }
@@ -33,7 +33,6 @@ void loop() {
   readButton();
   if (!isPlay) {
     menu();
-    Serial.println("ok");
   } else {
     if (!local) {
       if(!isWebSet){
@@ -43,8 +42,12 @@ void loop() {
         loopWeb();
       }
     } else {
-      // Passe cap, lasttouched, currtouched par référence !
-      localMode(cap, lasttouched, currtouched);
+      if(!isBtnSet){
+        setBtn(cap, lasttouched, currtouched);
+      }else{
+        // Passe cap, lasttouched, currtouched par référence !
+        localMode(cap, lasttouched, currtouched);
+      }
     }
   }
 }

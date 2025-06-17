@@ -17,6 +17,7 @@ bool isDifficulty = false;
 bool isPlay = false;
 bool isWebSet = false;
 
+
 #define BUTTON_A 15
 #define BUTTON_B 32
 Adafruit_SH1107 display = Adafruit_SH1107(64, 128, &Wire);
