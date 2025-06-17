@@ -18,13 +18,12 @@ void setup() {
   Serial.begin(115200);
   randomSeed(analogRead(0));
 
-/*
+
   if (!cap.begin(0x5B)) {
     Serial.println("MPR121 not found, check wiring?");
     while (1);
   }
   Serial.println("MPR121 found!");
-  */
 
   setupMenu();
 }
