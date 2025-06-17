@@ -26,8 +26,6 @@ unsigned long lastDebounceTimeB = 0;
 const unsigned long debounceDelay = 200;
 
 
-//extern const unsigned char epd_bitmap_logo[];
-
 void setupMenu() {
   pinMode(BUTTON_A, INPUT_PULLUP);
   pinMode(BUTTON_B, INPUT_PULLUP);
@@ -36,10 +34,6 @@ void setupMenu() {
   btnPrevB = 0x0;
 
   display.begin(0x3C, true);
-  display.clearDisplay();
-  // display.drawBitmap(0, 0, epd_bitmap_logo, 128, 64, SH110X_WHITE);
-  display.display();
-  delay(1000);
   display.clearDisplay();
   display.display();
 

@@ -13,6 +13,5 @@ extern WiFiServer server;
 void setupWeb();
 void loopWeb();
 void webGame(WiFiClient &c);
-void webSolo(WiFiClient &c);
 
 #endif // WEBSERVER_H

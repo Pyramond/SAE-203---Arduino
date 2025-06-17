@@ -47,7 +47,11 @@ void loop() {
         setBtn(cap, lasttouched, currtouched);
       } else{
         if(solo) {
-          localModeSolo(cap, lasttouched, currtouched);
+          if(difficulty == 1){
+            localModeSolo(cap, lasttouched, currtouched);
+          }else if(difficulty == 2){
+            localModeSoloExpert(cap, lasttouched, currtouched);
+          }
         }
         else {
           localModeDuo(cap, lasttouched, currtouched);
