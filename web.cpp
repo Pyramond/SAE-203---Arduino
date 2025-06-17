@@ -3,6 +3,8 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SH110X.h>
 
+extern Adafruit_SH1107 display;
+
 // Utilisateurs du réseau
 const char *ssid = "morpion-SAE";
 const char *password = "12345678";
