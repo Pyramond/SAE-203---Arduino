@@ -57,3 +57,26 @@ Giovanni JOSSERAND
 <img src="https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineaux_images/-/raw/main/ledsOn.jpg?ref_type=heads" height=200>
 <img src="https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineaux_images/-/raw/main/oled.png?ref_type=heads" height=200>
 
+### Branchement
+
+Libellé | pin
+| -- | -- |
+Entrée Bouton 1 | x
+Sortie Bouton 1 | 15
+Entrée Bouton 2 | x
+Sortie Bouton 2 | 33
+Entrée Bouton 3 | x
+Sortie Bouton 3 | 26
+Entrée Bouton 4 | x
+Sortie Bouton 4 | 25
+Entrée Bouton 5 | x
+Sortie Bouton 5 | 16
+Entrée Bouton 6 | x
+Sortie Bouton 6 | 17
+Entrée Bouton 7 | x
+Sortie Bouton 7 | 14
+Entrée Bouton 8 | x
+Sortie Bouton 8 | 32
+Entrée Bouton 9 | x
+Sortie Bouton 9 | 4
+ResetGame Bouton | 26
