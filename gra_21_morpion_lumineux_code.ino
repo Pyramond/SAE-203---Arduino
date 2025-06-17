@@ -20,11 +20,19 @@ void setup() {
   pinMode(A2, INPUT);
 
 
+<<<<<<< gra_21_morpion_lumineux_code.ino
+
+=======
+>>>>>>> gra_21_morpion_lumineux_code.ino
   if (!cap.begin(0x5B)) {
     Serial.println("MPR121 not found, check wiring?");
     while (1);
   }
   Serial.println("MPR121 found!");
+<<<<<<< gra_21_morpion_lumineux_code.ino
+
+=======
+>>>>>>> gra_21_morpion_lumineux_code.ino
 
   setupMenu();
 }
@@ -42,12 +50,15 @@ void loop() {
         loopWeb();
       }
     } else {
-      if(solo) {
-        localModeSolo(cap, lasttouched, currtouched);
+      if(!isBtnSet){
+        setBtn(cap, lasttouched, currtouched);
+      } else{
+        if(solo) {
+          localModeSolo(cap, lasttouched, currtouched);
+        }
+        else {
+          localModeDuo(cap, lasttouched, currtouched);
+        }
+        }
       }
-      else {
-        localModeDuo(cap, lasttouched, currtouched);
-      }
-    }
-  }
 }

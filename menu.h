@@ -20,6 +20,7 @@ extern bool isDifficulty;
 extern bool isPlay;
 extern bool isWebSet;
 
+
 #define BUTTON_A 15
 #define BUTTON_B 32
 
