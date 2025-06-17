@@ -28,6 +28,10 @@ bool btns[9] = { false, false, false, false, false, false, false, false, false }
 
 bool joueur1 = true;
 bool isBtnSet = false;
+unsigned long lastDebounceReset = 0;
+const unsigned long debounceDelayReset = 200;
+uint8_t btnPrev = LOW;
+uint8_t btn;
 
 void setBtn(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched){
   display.clearDisplay();
@@ -100,24 +104,31 @@ void afficheGrille() {
 }
 
 void reset() {
-  if(digitalRead(A2) == HIGH) {
-    Serial.println("Reset");
+  Serial.println("Reset");
 
-    for(int i = 0; i < 3; i++) {
-      for(int j = 0; j < 3; j++) {
-        grille[i][j] = 0;
-      }
+  for(int i = 0; i < 3; i++) {
+    for(int j = 0; j < 3; j++) {
+      grille[i][j] = 0;
     }
-
-    joueur1 = true;
-
-    afficheGrille();
   }
+
+  joueur1 = true;
+  afficheGrille();
+}
+
+void readButtonReset() {
+    btn = digitalRead(A2);
+    
+    if (btn == LOW && btnPrev == HIGH && (millis() - lastDebounceReset > debounceDelayReset)) {
+      lastDebounceReset = millis();
+      reset();
+    }
+    btnPrev = btn;
 }
 
 void localModeDuo(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched) {
   currtouched = cap.touched();
-  reset();
+  readButtonReset();
 
   for (int i = 0; i < numKeys; i++) {
     uint8_t t = keys[i].touchID;
@@ -149,7 +160,7 @@ void localModeDuo(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtou
 
 void localModeSolo(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched) {
   currtouched = cap.touched();
-  reset();
+  readButtonReset();
 
   for (int i = 0; i < numKeys; i++) {
     uint8_t t = keys[i].touchID;

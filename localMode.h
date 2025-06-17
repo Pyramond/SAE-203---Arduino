@@ -35,6 +35,7 @@ bool allInit();
 void afficheGrille();
 void reset();
 void setBtn(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched);
+void readButtonReset();
 
 void localModeDuo(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched);
 void localModeSolo(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched);
