@@ -41,8 +41,10 @@ void affichResultat();
 void turnOff();
 void menuGame();
 void menuWin();
+bool egalite();
 
 void localModeDuo(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched);
 void localModeSolo(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched);
+void localModeSoloExpert(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched);
 
 #endif // LOCALMODE_H

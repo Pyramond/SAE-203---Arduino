@@ -36,6 +36,7 @@ bool isFirstInit = true;
 
 
 bool isWin = false;
+bool isEgalite = false;
 
 int c1[] = {-1,-1};
 int c2[] = {-1,-1};
@@ -164,6 +165,36 @@ void readButtonReset() {
     btnPrev = btn;
 }
 
+bool egalite(){
+  if(!victoire(grille, 1) && !victoire(grille, 2)){
+    for(int i = 0; i < 3; i++) {
+      for(int j = 0; j < 3; j++) {
+        if(grille[i][j]==0){
+          return false;
+        }
+      
+      }
+    }
+    return true;
+  }else{
+    return false;
+  }
+  
+}
+
+
+void affichResultat(){
+  for(int i = 0; i < 3; i++) {
+    for(int j = 0; j < 3; j++) {
+      if((i!=c1[0] || j!=c1[1]) && (i!=c2[0] || j!=c2[1]) && (i!=c3[0] || j!=c3[1])){
+        keys[(3*i)+j].led.setPixelColor(0, 0,0,0);
+        keys[(3*i)+j].led.show();
+      }
+    }
+  }
+  isWin = true;
+}
+
 void localModeDuo(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched) {
   currtouched = cap.touched();
   readButtonReset();
@@ -199,6 +230,10 @@ void localModeDuo(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtou
         }
       }
     }
+    if(egalite()){
+      isWin=true;
+      isEgalite = true;
+    }
   }else{
     menuWin();
   }
@@ -227,21 +262,27 @@ void localModeSolo(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currto
             break;
           }
           
-          int x, y;
-          do {
-            x = random(0, 3);
-            y = random(0, 3);
-          } while(grille[y][x] != 0);
+          if(!egalite()){
+           int x, y;
+            do {
+              x = random(0, 3);
+              y = random(0, 3);
+            } while(grille[y][x] != 0);
 
-          grille[y][x] = 2;
-          keys[(3*y)+x].led.setPixelColor(0, 255,0,0);
-          keys[(3*y)+x].led.show();
-          if(victoire(grille, 2)) {
-            Serial.println("Joueur 2 a gagne");
-            affichResultat();
+            grille[y][x] = 2;
+            keys[(3*y)+x].led.setPixelColor(0, 255,0,0);
+            keys[(3*y)+x].led.show();
+            if(victoire(grille, 2)) {
+              Serial.println("Joueur 2 a gagne");
+              affichResultat();
+            } 
           }
         }
       }
+    }
+    if(egalite()){
+      isWin=true;
+      isEgalite = true;
     }
   }else{
     menuWin();
@@ -250,17 +291,84 @@ void localModeSolo(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currto
 }
 
 
-void affichResultat(){
-  for(int i = 0; i < 3; i++) {
-    for(int j = 0; j < 3; j++) {
-      if((i!=c1[0] || j!=c1[1]) && (i!=c2[0] || j!=c2[1]) && (i!=c3[0] || j!=c3[1])){
-        keys[(3*i)+j].led.setPixelColor(0, 0,0,0);
-        keys[(3*i)+j].led.show();
+
+
+
+void localModeSoloExpert(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched) {
+  currtouched = cap.touched();
+  readButtonReset();
+  if (!isWin) {
+    menuGame();
+    for (int i = 0; i < numKeys; i++) {
+      uint8_t t = keys[i].touchID;
+      if ((currtouched & _BV(t)) && !(lasttouched & _BV(t))) {
+        Coord c = getCo(i);
+        if (grille[c.y][c.x] == 0) {
+          grille[c.y][c.x] = 1;
+          keys[i].led.setPixelColor(0, 0, 0, 255);
+          keys[i].led.show();
+          if (victoire(grille, 1)) {
+            affichResultat();
+            break;
+          }
+          
+          if(!egalite()){
+            int x = -1, y = -1;
+            for (int j = 0; j < 3 && x == -1; j++) {
+              for (int k = 0; k < 3; k++) {
+                if (grille[j][k] == 0) {
+                  grille[j][k] = 2;
+                  if (victoire(grille, 2)) {
+                    x = k;
+                    y = j;
+                    break;
+                  }
+                  grille[j][k] = 0;
+                }
+              }
+            }
+            if (x == -1) {
+              for (int j = 0; j < 3 && x == -1; j++) {
+                for (int k = 0; k < 3; k++) {
+                  if (grille[j][k] == 0) {
+                    grille[j][k] = 1;
+                    if (victoire(grille, 1)) {
+                      x = k;
+                      y = j;
+                      break;
+                    }
+                    grille[j][k] = 0;
+                  }
+                }
+              }
+            }
+            if (x == -1) {
+              do {
+                x = random(0, 3);
+                y = random(0, 3);
+              } while (grille[y][x] != 0);
+            }
+            grille[y][x] = 2;
+            keys[3 * y + x].led.setPixelColor(0, 255, 0, 0);
+            keys[3 * y + x].led.show();
+            if (victoire(grille, 2)) {
+              affichResultat();
+            }
+          }
+        }
       }
     }
+    if (egalite()) {
+      isWin = true;
+      isEgalite = true;
+    }
+  } else {
+    menuWin();
   }
-  isWin = true;
+  lasttouched = currtouched;
 }
+
+
 
 
 void turnOff(){
@@ -280,7 +388,8 @@ void menuGame(){
 void menuWin(){
   display.clearDisplay();
   display.setCursor(0, 0);
-   if(victoire(grille, 1)){
+  if(!isEgalite){
+    if(victoire(grille, 1)){
       display.println("Victoire du joueur 1");
       display.println();
       display.println("Cliquer sur le boutonreplay pour rejouer !");
@@ -292,5 +401,13 @@ void menuWin(){
       display.println();
       display.println("Cliquer sur le boutonreset pour revenir\nau menu !");
    }
+  }else{
+    display.println("Egalite");
+    display.println();
+    display.println("Cliquer sur le boutonreplay pour rejouer !");
+    display.println();
+    display.println("Cliquer sur le boutonreset pour revenir\nau menu !");
+  }
+   
   display.display();
 }
