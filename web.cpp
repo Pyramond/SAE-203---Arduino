@@ -40,7 +40,7 @@ void setupWeb() {
 void webGame(NetworkClient &c){
   c.println(R"rawliteral(
 
-  <!DOCTYPE html>
+<!DOCTYPE html>
   <html lang="fr">
   <head>
     <meta charset="UTF-8" />
@@ -143,7 +143,8 @@ void webGame(NetworkClient &c){
       <label for="modeSelect">Mode :</label>
       <select id="modeSelect">
         <option value="duo" selected>Duo (2 joueurs)</option>
-        <option value="solo">Solo (contre IA)</option>
+        <option value="soloF">Solo (contre IA Facile)</option>
+        <option value="soloD">Solo (contre IA Difficile)</option>
       </select>
     </div>
     <div class="status">Joueur 1 (Bleu) à jouer</div>
@@ -203,13 +204,38 @@ void webGame(NetworkClient &c){
           }
         }
       }
+
+      function getIaMove() {
+        if(modeSelect.value == "soloF") {
+
+          let libres = [];
+          etat.forEach((v, i) => { if (v === 0) libres.push(i); });
+          if (libres.length === 0) return;
+          return libres[Math.floor(Math.random() * libres.length)];
+
+        } else if(modeSelect.value == "soloD") {
+
+          for (let l of combinaisons) {
+              let vals = l.map(i => etat[i]);
+              if (vals.filter(v => v == 2).length == 2 && vals.includes(0))
+                  return l[vals.indexOf(0)];
+          }
+          for (let l of combinaisons) {
+              let vals = l.map(i => etat[i]);
+              if (vals.filter(v => v == 1).length == 2 && vals.includes(0))
+                  return l[vals.indexOf(0)];
+          }
+          if (etat[4] == 0) return 4;
+          for (let i of [0,2,6,8]) if (etat[i] == 0) return i;
+          for (let i = 0; i < 9; i++) if (etat[i] == 0) return i;
+
+        }
+      }
+
   
       function iaPlay() {
         if (jeuFini) return;
-        let libres = [];
-        etat.forEach((v, i) => { if (v === 0) libres.push(i); });
-        if (libres.length === 0) return;
-        let choix = libres[Math.floor(Math.random() * libres.length)];
+        let choix = getIaMove();
         etat[choix] = 2;
         let cell = cells[choix];
         cell.textContent = 'O';
@@ -235,7 +261,7 @@ void webGame(NetworkClient &c){
           c.classList.remove('blue', 'red', 'winner');
         });
         updateStatus();
-        if (modeSelect.value === 'solo' && joueur === 2) {
+        if ((modeSelect.value === 'soloF' || modeSelect.value === 'soloD') && joueur === 2) {
           iaPlay();
         }
       }
