@@ -19,20 +19,11 @@ void setup() {
   randomSeed(analogRead(0));
   pinMode(A2, INPUT);
 
-
-<<<<<<< gra_21_morpion_lumineux_code.ino
-
-=======
->>>>>>> gra_21_morpion_lumineux_code.ino
   if (!cap.begin(0x5B)) {
     Serial.println("MPR121 not found, check wiring?");
     while (1);
   }
   Serial.println("MPR121 found!");
-<<<<<<< gra_21_morpion_lumineux_code.ino
-
-=======
->>>>>>> gra_21_morpion_lumineux_code.ino
 
   setupMenu();
 }
@@ -61,4 +52,5 @@ void loop() {
         }
         }
       }
+  }
 }

@@ -1,5 +1,9 @@
 #include "localMode.h"
 #include <Arduino.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SH110X.h>
+
+extern Adafruit_SH1107 display;
 
 MechKey keys[] = {
   {0, A0, false, Adafruit_NeoPixel(1, A0, NEO_GRB + NEO_KHZ800)},
@@ -23,6 +27,29 @@ int grille[3][3] = {
 bool btns[9] = { false, false, false, false, false, false, false, false, false };
 
 bool joueur1 = true;
+bool isBtnSet = false;
+
+void setBtn(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtouched){
+  display.clearDisplay();
+  display.setCursor(0, 0);
+  display.print("Veuillez rester\nappuye sur chaqu'un\ndes boutons pendant\n3 secondes avant de\nles relacher pour\nles initialiser");
+  display.display();
+  if(allInit()){
+    isBtnSet = true;
+  }else{
+    currtouched = cap.touched();
+    for (int i = 0; i < numKeys; i++) {
+      uint8_t t = keys[i].touchID;
+      keys[i].led.setPixelColor(0, 255); // Bleu
+      keys[i].led.show();
+      if ((currtouched & _BV(t)) && !(lasttouched & _BV(t))) {
+        Serial.print("Touch "); Serial.print(t); Serial.println(" pressed");
+        btns[i] = true;
+      }
+    }
+    lasttouched = currtouched;
+  }
+}
 
 Coord getCo(int key) {
   switch(key) {
@@ -97,26 +124,23 @@ void localModeDuo(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currtou
 
     if ((currtouched & _BV(t)) && !(lasttouched & _BV(t))) {
       Serial.print("Touch "); Serial.print(t); Serial.println(" pressed");
-      btns[i] = true;
 
-      if(allInit()) {
-        Coord c = getCo(i);
-        if(grille[c.y][c.x] == 0) {
-          if(joueur1) {
-            grille[c.y][c.x] = 1;
-            afficheGrille();
-            if(victoire(grille, 1)) {
-              Serial.println("Joueur 1 a gagne");
-            }
-          } else {
-            grille[c.y][c.x] = 2;
-            afficheGrille();
-            if(victoire(grille, 2)) {
-              Serial.println("Joueur 2 a gagne");
-            }
+      Coord c = getCo(i);
+      if(grille[c.y][c.x] == 0) {
+        if(joueur1) {
+          grille[c.y][c.x] = 1;
+          afficheGrille();
+          if(victoire(grille, 1)) {
+            Serial.println("Joueur 1 a gagne");
           }
-          joueur1 = !joueur1;
+        } else {
+          grille[c.y][c.x] = 2;
+          afficheGrille();
+          if(victoire(grille, 2)) {
+            Serial.println("Joueur 2 a gagne");
+          }
         }
+        joueur1 = !joueur1;
       }
     }
   }
@@ -129,35 +153,30 @@ void localModeSolo(Adafruit_MPR121& cap, uint16_t& lasttouched, uint16_t& currto
 
   for (int i = 0; i < numKeys; i++) {
     uint8_t t = keys[i].touchID;
-    keys[i].led.setPixelColor(0, 255); // Bleu
-    keys[i].led.show();
 
     if ((currtouched & _BV(t)) && !(lasttouched & _BV(t))) {
       Serial.print("Touch "); Serial.print(t); Serial.println(" pressed");
-      btns[i] = true;
 
-      if(allInit()) {
-        Coord c = getCo(i);
-        if(grille[c.y][c.x] == 0) {
-          grille[c.y][c.x] = 1;
-          afficheGrille();
-          if(victoire(grille, 1)) {
-            Serial.println("Joueur 1 a gagne");
-          }
+      Coord c = getCo(i);
+       if(grille[c.y][c.x] == 0) {
+        grille[c.y][c.x] = 1;
+         afficheGrille();
+         if(victoire(grille, 1)) {
+           Serial.println("Joueur 1 a gagne");
+         }
 
-          int x, y;
-          do {
-            x = random(0, 3);
-            y = random(0, 3); 
-          } while(grille[y][x] != 0);
+         int x, y;
+         do {
+           x = random(0, 3);
+          y = random(0, 3); 
+        } while(grille[y][x] != 0);
 
-          grille[y][x] = 2;
-          afficheGrille();
-          if(victoire(grille, 2)) {
-            Serial.println("Joueur 2 a gagne");
-          }
-        }
-      }
+         grille[y][x] = 2;
+         afficheGrille();
+         if(victoire(grille, 2)) {
+           Serial.println("Joueur 2 a gagne");
+         }
+       }
     }
   }
   lasttouched = currtouched;
