@@ -14,7 +14,7 @@ Giovanni JOSSERAND
 
 ### Prérequis
 
-- Télécharger le code source via le [Gitlab officiel du projet](https://exemple.com)
+- Télécharger le code source via le [Gitlab officiel du projet](https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineux_code)
 - Installer [l'IDE Arduino](https://www.arduino.cc/en/software/)
 - Avoir les composants suivants :
   - 1x Esp32
@@ -46,7 +46,7 @@ Giovanni JOSSERAND
 ### Annexe
 
 #### Liens utiles
-- [Gitlab du projet](https://exemple.com)
+- [Gitlab du projet](https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineux_code)
 - [Arduino](https://www.arduino.cc/)
 - [IDE Arduino](https://www.arduino.cc/en/software/)
 - [Tutoriel Vidéo](https://exemple.com)
