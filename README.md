@@ -1,6 +1,6 @@
 # Morpion lumineux
 
-## SAE 203
+## SAE 203 <br> 1A semestre 2
 
 Quentin T'JAMPENS
 Giovanni JOSSERAND
@@ -50,17 +50,6 @@ Giovanni JOSSERAND
 - [Gitlab du projet](https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineux_code)
 - [Arduino](https://www.arduino.cc/)
 - [IDE Arduino](https://www.arduino.cc/en/software/)
-- [Tutoriel Vidéo](https://exemple.com)
-
-#### Photos
-
-<img src="https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineaux_images/-/raw/main/oled.png?ref_type=heads" height=200>
-<img src="https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineaux_images/-/raw/main/4.png?ref_type=heads" height=200>
-<img src="https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineaux_images/-/raw/main/ledsOff.jpg?ref_type=heads" height=200>
-<img src="https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineaux_images/-/raw/main/ledsOn.jpg?ref_type=heads" height=200>
-<img src="https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineaux_images/-/raw/main/3.jpg?ref_type=heads" height=200>
-<img src="https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineaux_images/-/raw/main/2.jpg?ref_type=heads" height=200>
-<img src="https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineaux_images/-/raw/main/1.jpg?ref_type=heads" height=200>
 
 #### Branchement
 
