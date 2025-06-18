@@ -11,6 +11,7 @@ Giovanni JOSSERAND
 2. Configurer le projet
 3. Utiliser le projet
 4. Annexe
+5. Problèmes connus
 
 ### Prérequis
 
@@ -51,7 +52,7 @@ Giovanni JOSSERAND
 - [IDE Arduino](https://www.arduino.cc/en/software/)
 - [Tutoriel Vidéo](https://exemple.com)
 
-### Photos
+#### Photos
 
 <img src="https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineaux_images/-/raw/main/oled.png?ref_type=heads" height=200>
 <img src="https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineaux_images/-/raw/main/4.png?ref_type=heads" height=200>
@@ -61,7 +62,7 @@ Giovanni JOSSERAND
 <img src="https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineaux_images/-/raw/main/2.jpg?ref_type=heads" height=200>
 <img src="https://iutbg-gitlab.iutbourg.univ-lyon1.fr/SAE_203_2025/grA_21_Morpion_lumineaux/gra_21_morpion_lumineaux_images/-/raw/main/1.jpg?ref_type=heads" height=200>
 
-### Branchement
+#### Branchement
 
 Libellé | pin
 | -- | -- |
@@ -86,10 +87,16 @@ Sortie Bouton 9 | 4
 ResetGame Bouton | 26
 
 
-### bibliothèques utilisées
+#### Bibliothèques utilisées
 
 - Adafruit NeoPixel v1.15.1
 - TTP229
 - Adafruit_MPR121
 - Adafruit GFX Library
 - Adafruit_SH110X
+
+
+### Problèmes connus
+
+- Après un reset, les LED restent allumées et s'éteignent lors du lancement d'une partie (web ou local). Mais parfois, une LED reste allumé malgré tout
+- Il est possible qu'un bouton ne fonctionne pas correctement lorsqu'il est utilisé en mode local par le joueur (LED et interaction)
