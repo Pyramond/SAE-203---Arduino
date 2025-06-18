@@ -2,6 +2,7 @@
 #include <Arduino.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SH110X.h>
+#include "localMode.h"
 
 extern Adafruit_SH1107 display;
 
@@ -10,6 +11,7 @@ const char *password = "12345678";
 WiFiServer server(80);
 
 void setupWeb() {
+  turnOff();
   Serial.println();
   Serial.println("Configuring access point...");
   if (!WiFi.softAP(ssid, password)) {
